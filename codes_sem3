@@ -238,4 +238,329 @@ int isempty()
    return 0;
 }
 
+*************************************************************DOUBLY LINKED LIST***********************************************************
+#include<stdio.h>
+#include<stdlib.h>
+
+struct element
+{
+int data;
+struct element *prev;
+struct element *next;
+};
+
+typedef struct element node;
+int count =0;
+void creation();
+void insert_at_beg();
+void insert_in_emptylist();
+void insert_inbetween();
+void insert_at_end();
+
+void del_first_node();
+void del_onlynode();
+void del_inbetween();
+void del_at_end();
+
+void reverse();
+void traversal();
+
+node *start = NULL;
+
+int main()
+{
+int choice ;
+    while(1)
+    {
+        printf("\nSelect Operation \n 1:Creation 2:Insertion 3:Deletion 4:Traversal 5:Reversal 6:Exit \n");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1 :  creation();
+                      break;
+            case 2 : printf("\nSelect Operation \n Insertion at 1:Beggining 2:In empty list 3: In between 4 : At the end\n");
+scanf("%d",&choice);
+if(choice ==1)
+insert_at_beg();
+ else if (choice ==2)
+   insert_in_emptylist();
+ else if(choice == 3)
+insert_inbetween();
+ else
+insert_at_end();
+ break;
+
+            case 3 : printf("\nSelect Operation \n Deletion at 1:Beggining 2:Of only node 3: In between 4 : At the end\n");
+scanf("%d",&choice);
+if(choice ==1)
+del_first_node();
+ else if (choice ==2)
+   del_onlynode();
+ else if(choice == 3)
+del_inbetween();
+ else
+del_at_end();
+ break;
+            case 4 :traversal();
+break;
+            case 5 :  reverse();
+ break;
+            case 6 : exit(1);
+            default : printf("Please enter valid choice\n");
+        }
+    }
+
+
+return 0;
+}
+
+
+void creation()
+{
+int i,n;
+node *ptr,*temp;
+printf("\nEnter the number of nodes :");
+scanf("%d",&n);
+count=n;
+printf("Enter Values of the list \n");
+start=(node*)malloc(sizeof(node));
+scanf("%d",&start->data);
+start->next=NULL;
+start->prev=NULL;
+ptr=start;
+
+for(i=1;i<=n-1;i++)
+{
+temp=(node*)malloc(sizeof(node));
+scanf("%d",&temp->data);
+temp->next=NULL;
+ptr->next= temp;
+temp->prev=ptr;
+ptr=temp;
+}
+}
+
+
+
+void insert_at_beg()
+{
+if(count == 0)
+{
+printf("Create a node first !!\n");
+return;
+}
+int item;
+node * temp;
+temp=(node*)malloc(sizeof(node));
+if(temp==NULL)
+{
+ printf("Node Not created");
+ return;
+}
+printf("\nEnter Value to be inserted : ");
+scanf("%d",&item);
+temp->data=item;
+temp->prev=NULL;
+temp->next=start;
+start->prev=temp;
+start=temp;
+count++;
+
+}
+
+void insert_in_emptylist()
+{
+int item;
+node * temp;
+temp=(node*)malloc(sizeof(node));
+if(temp==NULL)
+{
+ printf("Node Not created");
+ return;
+}
+printf("\nEnter Value to be inserted : ");
+scanf("%d",&item);
+temp->data=item;
+temp->next=NULL;
+temp->prev=NULL;
+start=temp;
+count++;
+
+
+}
+void insert_inbetween()
+{
+
+int item,pos,i;
+node * temp,*ptr=start;
+temp=(node*)malloc(sizeof(node));
+if(temp==NULL)
+{
+ printf("Node Not created");
+ return;
+}
+printf("Enter position to be inserted");
+scanf("%d",&pos);
+if(pos>count)
+{
+printf("Enter valid position ");
+return;
+}
+if(count == 0)
+{
+printf("Create a node first !!\n");
+return;
+}
+
+
+printf("\nEnter Value to be inserted : ");
+scanf("%d",&item);
+
+temp->data=item;
+
+for(i=1;i<=pos-2;i++)
+ptr=ptr->next;
+temp->next=ptr->next;
+temp->prev=ptr;
+ptr->next->prev=temp;
+ptr->next=temp;
+count++;
+}
+
+void insert_at_end()
+{ int item;
+node * temp,*ptr=start;
+temp=(node*)malloc(sizeof(node));
+if(temp==NULL)
+{
+ printf("Node Not created");
+ return;
+}
+
+if(count == 0)
+{
+printf("Create a node first !!\n");
+return;
+}
+while(ptr->next!=NULL)
+ptr=ptr->next;
+printf("\nEnter Value to be inserted : ");
+scanf("%d",&item);
+temp->data=item;
+temp->next=NULL;
+temp->prev=ptr;
+ptr->next=temp;
+count++;
+
+
+}
+
+void del_first_node()
+{
+node*temp=start;
+if(count == 0)
+{
+printf("Create a node first !!\n");
+return;
+}
+start=start->next;
+start->prev=NULL;
+free(temp);
+count--;
+}
+void del_onlynode()
+{
+node*temp=start;
+if(count == 0)
+{
+printf("Create a node first !!\n");
+return;
+}
+start=NULL;
+free(temp);
+count--;
+}
+void del_inbetween()
+{
+int i,pos;
+node *ptr=start,*temp;
+printf("Enter position to be deleted");
+scanf("%d",&pos);
+
+if(pos>count)
+{
+printf("Enter proper position");
+return;
+}
+if(count == 0)
+{
+printf("Create a node first !!\n");
+return;
+}
+
+for(i=1;i<=pos-2;i++)
+ptr=ptr->next;
+temp=ptr->next;
+ptr->next=temp->next;
+temp->next->prev=ptr;
+free(temp);
+count--;
+
+}
+void del_at_end()
+{
+node *ptr=start;
+if(count == 0)
+{
+printf("Create a node first !!\n");
+return;
+}
+while(ptr->next!=NULL)
+ptr=ptr->next;
+ptr->prev->next=NULL;
+free(ptr);
+count--;
+
+}
+
+void reverse()
+{
+node *ptr1,*ptr2;
+ptr1=start;
+ptr2=ptr1->next;
+ptr1->next =NULL;
+ptr1->prev=ptr2;
+while(ptr2!=NULL)
+{
+
+ptr2->prev=ptr2->next;
+ptr2->next=ptr1;
+ptr1=ptr2;
+ptr2=ptr2->prev;
+}
+start=ptr1;
+printf("List Reversed \n");
+
+}
+
+void traversal()
+{
+
+node *ptr=start;
+if(count==0)
+printf("\nList empty : ");
+else
+{
+printf("\nElements are : ");
+while(ptr!=NULL)
+{
+printf("%d ",ptr->data);
+ptr=ptr->next;
+
+}
+ }
+
+}
+
+
 
