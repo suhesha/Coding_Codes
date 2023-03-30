@@ -127,3 +127,115 @@ printf("\n Elements are : ");
      temp=temp->next;
  }
 }
+
+
+stacks using linked list
+
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+     int data;
+     struct node * next;
+};
+
+struct node * top = NULL;
+
+void push(int item);
+int pop();
+int peek();
+int isempty();
+void display();
+
+int main()
+{
+    int choice , item ;
+    while(1)
+    {
+        printf("\nSelect Operation \n 1:PUSH 2:POP 3:Display top element 4:Display All Stack Elements 5:EXIT \n\n");
+        scanf("%d",&choice);
+        switch(choice)
+        {
+            case 1 : printf("Enter element to be pushed ");
+                     scanf("%d",&item);
+                     push(item);
+                     break;
+
+            case 2: item=pop();
+                    printf("Item poped is %d\n",item);
+                    break;
+            case 3 :printf("the top of the stack is %d\n",peek());
+                    break;
+            case 4 : display();
+                    break;
+            case 5 : exit(1);
+            default : printf("Please enter valid choice\n");
+        }
+    }
+
+    return 0;
+}
+
+void push(int item)
+{
+   struct node* temp;
+   temp=(struct node *)malloc(sizeof(struct node));
+   if(temp==NULL)
+   {
+      printf("stack overflow \n");
+      return;
+   }
+   temp->data=item;
+   temp->next=top;
+   top=temp;
+
+}
+
+int pop()
+{ int item;
+  if(isempty())
+  { printf("Stack underflow");
+  return;
+  }
+  struct node *temp=top;
+  top=top->next;
+  item=temp->data;
+  free(temp);
+  return item;
+}
+
+int peek()
+{
+    if(isempty())
+  { printf("Stack underflow");
+    exit(1);
+  }
+   return top->data;
+}
+
+void display()
+{
+  if(isempty())
+   {
+    printf("Stack is empty \n");
+    return;
+   }
+ struct node *temp =top;
+printf("\n Elements are : ");
+ while(temp!=NULL)
+ {
+     printf("%d ",temp->data);
+     temp=temp->next;
+ }
+}
+
+int isempty()
+{
+   if (top==NULL)
+   return 1;
+   else
+   return 0;
+}
+
+
