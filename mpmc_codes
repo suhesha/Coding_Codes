@@ -105,3 +105,119 @@ mov ebx,1
 mov eax,4
 int 80h
 ********************************************************************************************
+****************************************BASIC MATHEMATIC OPERATION**********************************************
+section .data
+msg db "***  basic mathematical operations ***"
+len equ $ -msg
+msg1 db 10,13,"sum:"
+len1 equ $ -msg1
+msg2 db 10,13,"difference:",10
+len2 equ $ -msg2
+msg3 db 10,13,"product:"
+len3 equ $ -msg3
+msg4 db 10,13,"quotient:"
+len4 equ $ -msg4
+
+section .bss
+sum resb 1
+diff resb 1
+prod resb 1
+quot resb 1
+section .text
+global _start
+_start:
+;display the string msg
+mov ecx,msg
+mov edx,len
+mov ebx,1
+mov eax,4
+int 80h
+
+;display the string msg1
+mov ecx,msg1
+mov edx,len1
+mov ebx,1
+mov eax,4
+int 80h
+
+;****addition****
+mov ax,'6'
+sub ax,'0'
+mov bl,'2'
+sub bl,'0'
+add al,bl
+add ax,'0'
+mov[sum],ax
+;display sum
+mov ecx,sum
+mov edx,1
+mov ebx,1
+mov eax,4
+int 80h
+
+;display the string msg1
+mov ecx,msg2
+mov edx,len2
+mov ebx,1
+mov eax,4
+int 80h
+
+;****subtraction****
+mov ax,'6'
+sub ax,'0'
+mov bl,'2'
+sub bl,'0'
+sub al,bl
+add ax,'0'
+mov[diff],ax
+;display diff
+mov ecx,diff
+mov edx,1
+mov ebx,1
+mov eax,4
+int 80h
+;display the string msg3
+mov ecx,msg3
+mov edx,len3
+mov ebx,1
+mov eax,4
+int 80h
+
+;****multiplication****
+mov ax,'3'
+sub ax,'0'
+mov bl,'2'
+sub bl,'0'
+mul bl
+add ax,'0'
+mov[prod],ax
+;display prod
+mov ecx,prod
+mov edx,1
+mov ebx,1
+mov eax,4
+int 80h
+
+;display the string msg4
+mov ecx,msg4
+mov edx,len4
+mov ebx,1
+mov eax,4
+int 80h
+
+;****quotient****
+mov ax,'3'
+sub ax,'0'
+mov bl,'2'
+sub bl,'0'
+div bl
+add ax,'0'
+mov[quot],ax
+;display quot
+mov ecx,quot
+mov edx,1
+mov ebx,1
+mov eax,4
+int 80h
+
+***********************************************
