@@ -311,3 +311,386 @@ writestring msg3,len3
 mov eax, 1
 mov ebx, 0
 int 80h
+
+
+
+***********************************EXPERIMENT 4**************************************
+;Programmer title : ALP using nasm on linux platform to convert Hexadecimal to ASCII value
+section .data
+ecnt dw 5dh
+
+section .bss
+dis_buffer resb 2
+
+section .text
+global _start
+_start:
+mov bx, word[ecnt]
+mov ecx, 2
+mov edi, dis_buffer
+DUP: rol bl,04
+mov al,bl
+and al, 0fh
+cmp al, 09h
+jbe NEXT
+add al, 07h
+NEXT: add al, 30h
+mov [edi], al
+inc edi
+loop DUP
+mov eax, 4 ; Print number
+mov ebx, 1
+mov ecx, dis_buffer
+mov edx, 2 ; Write 2 digits
+int 80h
+
+;exit program
+
+mov eax, 1
+mov ebx, 0
+int 80h
+
+;Programmer title Count number of positive and negative numbers from the array using procedures.
+section .data
+title db &quot;Count of positive and negative Numbers in an array&quot;, 10,13
+title_len equ $-title
+pos_msg db &quot;Positive count: &quot;,10,13
+pos_len equ $-pos_msg
+neg_msg db &quot;Negative count:&quot;,10,13
+neg_len equ $-neg_msg
+newline db 10
+
+;array declaration and initialization
+
+array dw 10H, -21H, 45H, 12H, -34H, 48H, 79H, 98H, -89H
+arrcnt equ 9 ; static array count
+pcnt dw 0 ; positive number count
+ncnt dw 0 ; negative number count
+
+section .bss
+dis_buffer resb 2
+section .text
+global _start
+_start:
+mov eax, 4 ; Title msg display
+mov ebx, 1
+mov ecx, title
+mov edx, title_len
+int 80h
+mov esi, array ; initializing array start address
+mov ecx, arrcnt
+up: bt word[esi],15
+jc ncxt
+inc byte[pcnt]
+jmp pskip
+ncxt: inc byte[ncnt]
+pskip: inc esi
+inc esi
+loop up
+
+;positive count msg display
+
+mov eax, 4
+mov ebx, 1
+mov ecx, pos_msg
+mov edx, pos_len
+int 80h
+mov bl, [pcnt]
+call hex_ascii
+mov eax, 4
+mov ebx, 1
+mov ecx, newline
+mov edx, 1
+int 80h
+
+;negative count msg display
+
+mov eax, 4
+mov ebx, 1
+mov ecx, neg_msg
+mov edx, neg_len
+int 80h
+mov bl, [ncnt]
+call hex_ascii
+
+;print newline
+
+mov eax, 4
+mov ebx, 1
+mov ecx, newline
+mov edx, 1
+int 80h
+
+;exit the program
+
+mov eax, 1
+mov ebx, 0
+int 80h
+
+; Hex to ascii procedure
+hex_ascii:
+mov ecx, 2
+mov edi, dis_buffer
+dup: rol bl, 04
+mov al, bl
+and al, 0fh
+cmp al, 09h
+jbe next
+add al, 07h
+next: add al, 30h
+mov [edi], al
+inc edi
+loop dup
+; display count
+mov eax, 4
+mov ebx, 1
+mov ecx, dis_buffer
+mov edx, 2 ; Write 2 digits
+int 80h
+RET
+
+
+
+
+section .data
+title db &quot;Count of Even and Odd Numbers in an array&quot;, 10,13
+title_len equ $-title
+even_msg db &quot;Even Count: &quot;,10,13
+even_len equ $-even_msg
+odd_msg db &quot;Odd count:&quot;,10,13
+odd_len equ $-odd_msg
+newline db 10
+;array declaration and initialization
+array dw 10H, 21H, 45H, 12H, 34H, 48H, 79H, 98H, 89H
+arrcnt equ 9 ;static array count
+ecnt dw 0 ;even number count
+ocnt dw 0 ;odd number count
+
+section .bss
+dis_buffer resb 2
+section .text
+global _start
+_start:
+; title msg display
+mov eax, 4
+mov ebx, 1
+mov ecx, title
+mov edx, title_len
+int 80h
+; initializing array start address
+mov esi, array
+mov ecx, arrcnt
+up: bt word[esi],0 ;bt means bit test
+jc ncxt
+inc byte[ecnt]
+jmp eskip
+ncxt: inc byte[ocnt]
+eskip: inc esi
+inc esi
+loop up
+;even count msg display
+mov eax, 4
+mov ebx, 1
+mov ecx, even_msg
+mov edx, even_len
+int 80h
+mov bl, [ecnt]
+call hex_ascii
+; print newline
+mov eax, 4
+mov ebx, 1
+mov ecx, newline
+mov edx, 1
+int 80h
+;odd count msg display
+mov eax, 4
+mov ebx, 1
+mov ecx, odd_msg
+mov edx, odd_len
+int 80h
+mov bl, [ocnt]
+call hex_ascii
+;print newline
+mov eax, 4
+mov ebx, 1
+mov ecx, newline
+mov edx, 1
+int 80h
+;exit the program
+mov eax, 1
+mov ebx, 0
+int 80h
+
+; hex to ascii procedure
+hex_ascii:
+mov ecx, 2
+mov edi, dis_buffer
+dup: rol bl, 04
+mov al, bl
+and al, 0fh
+cmp al, 09h
+jbe next
+add al, 07h
+next: add al, 30h
+mov [edi], al
+inc edi
+loop dup
+
+; display count
+
+mov eax, 4
+mov ebx, 1
+mov ecx, dis_buffer
+mov edx, 2 ; Write 2 digits
+int 80h
+RET
+
+
+section .data
+msg1 db &quot;Enter a Lowercase Character : &quot;
+msgLen1 equ $-msg1
+msg2 db 10,13,&quot;Coverted Character is : &quot;
+msgLen2 equ $-msg2
+msg3 db &quot;The entered character is not a lowercase character ! &quot;
+msgLen3 equ $-msg3
+newline db 10
+section .bss
+char resb 2
+section .text
+global _start:
+_start:
+mov eax,4
+mov ebx,1
+mov ecx,msg1
+mov edx,msgLen1
+int 80h
+mov eax,3
+mov ebx,0
+mov ecx,char
+mov edx,1
+int 80h
+CALL ToUpper
+mov eax,1
+mov ebx,0
+int 80h
+; LowerCase to UpperCase
+ToUpper:
+mov eax,[char]
+cmp eax,61h
+jae check
+jmp display
+check: cmp eax,7Ah
+jbe conversion
+jmp display
+conversion :
+sub eax,20h
+mov [char],eax
+mov eax,4
+mov ebx,1
+mov ecx,msg2
+mov edx,msgLen2
+int 80h
+; display uppercase value
+mov ecx,char
+mov eax, 4
+mov ebx, 1
+mov edx, 1
+int 80h
+;print newline
+mov eax, 4
+mov ebx, 1
+mov ecx, newline
+mov edx, 1
+int 80h
+jmp exit
+display :
+mov eax,4
+mov ebx, 1
+mov ecx, msg3
+mov edx, msgLen3
+int 80h
+;print newline
+mov eax, 4
+mov ebx, 1
+mov ecx, newline
+mov edx, 1
+int 80h
+exit:
+RET
+
+
+
+section .data
+msg1 db &quot;Enter a Uppercase Character : &quot;
+msgLen1 equ $-msg1
+msg2 db 10,13,&quot;Coverted Character is : &quot;
+msgLen2 equ $-msg2
+msg3 db &quot;The entered character is not a uppercase character ! &quot;
+msgLen3 equ $-msg3
+newline db 10
+section .bss
+char resb 2
+section .text
+global _start:
+_start:
+mov eax,4
+mov ebx,1
+mov ecx,msg1
+mov edx,msgLen1
+int 80h
+mov eax,3
+mov ebx,0
+mov ecx,char
+mov edx,1
+int 80h
+CALL ToLower
+mov eax,1
+mov ebx,0
+int 80h
+;LowerCase to UpperCase
+ToLower:
+mov eax,[char]
+cmp eax,41h
+jae check
+jmp display
+check: cmp eax,5Ah
+jbe conversion
+jmp display
+conversion :
+add eax,20h
+mov [char],eax
+mov eax,4
+mov ebx,1
+mov ecx,msg2
+mov edx,msgLen2
+int 80h
+; display uppercase value
+mov ecx,char
+mov eax, 4
+mov ebx, 1
+mov edx, 1
+int 80h
+
+;print newline
+mov eax, 4
+mov ebx, 1
+mov ecx, newline
+mov edx, 1
+int 80h
+jmp exit
+
+display :
+mov eax,4
+mov ebx, 1
+mov ecx, msg3
+mov edx, msgLen3
+int 80h
+;print newline
+mov eax, 4
+mov ebx, 1
+mov ecx, newline
+mov edx, 1
+int 80h
+exit:
+RET
+
