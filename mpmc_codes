@@ -221,3 +221,60 @@ mov eax,4
 int 80h
 
 ***********************************************
+Program 1
+section .data
+msg db "Hello,world!",10
+len equ $ -msg
+section .text
+global _start
+_start:
+mov ecx,msg ;
+mov edx,len
+mov eax,4
+mov ebx,1
+int 80h
+mov eax,1
+int 80h
+
+Program 2
+section .data
+msg db "Hello,world!",10
+len equ $ -msg
+msg1 db "first 80386 program",10
+len1 equ $ -msg1
+section .text
+global _start
+_start:
+mov ecx,msg
+mov edx,len
+mov eax,4
+mov ebx,1
+int 80h
+mov ecx,msg1
+mov edx,len1
+mov eax,4
+mov ebx,1
+int 80h
+mov eax,1
+int 80h
+
+Program 3
+mection .data
+msg db “Zara Ali”,10
+len equ $- msg
+section .text
+global _start
+_start:
+mov ecx,msg
+mov edx,len
+mov eax,4
+mov ebx,1
+int 80h
+mov[msg],dword’Nuha’
+mov ecx,msg
+mov edx,len
+mov eax,4
+mov ebx,1
+int 80h
+mov eax,1
+int 80h
