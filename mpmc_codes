@@ -1,5 +1,5 @@
-************************TO ADD 2 NUMBERS*****************************
-section .data
+************************TO ADD 2 NUMBERS********************
+section .da
 msg db "enter a digit 1:" ,10
 len equ $- msg
 msg2 db "enter the digit 2:" ,10
