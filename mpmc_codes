@@ -808,3 +808,54 @@ loop again
 write dispbuff,8 ;use macros of display
 write newline,1
 ret
+
+
+%macro fibonacci 1
+mov eax, 0
+display
+mov eax, 1
+display
+mov ecx, %1
+sub ecx, 2
+mov eax, 1
+mov ebx, 0
+fib: mov edx,eax
+add eax,ebx
+display
+mov ebx,edx
+dec ecx
+jnz fib
+mov ebx,0
+mov eax,1
+int 80h
+%endmacro
+%macro display 0
+call iprint
+push eax
+mov eax,0ah
+push eax
+mov eax,esp
+call sprint
+pop eax
+pop eax
+%endmacro
+%macro input 0
+mov eax, 4
+mov ebx, 1
+mov ecx, msg1
+mov edx, len1
+int 80h
+mov eax, 3
+mov ebx, 0
+mov ecx, num
+mov edx, 2
+int 80h
+%endmacro
+%macro string_to_int 0
+xor ebx,ebx
+next_digit:
+movzx eax,byte[esi]
+inc esi
+sub al, &#39;0&#39;
+imul ebx, 10
+add ebx,eax
