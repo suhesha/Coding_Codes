@@ -859,3 +859,49 @@ inc esi
 sub al, &#39;0&#39;
 imul ebx, 10
 add ebx,eax
+loop next_digit
+mov eax,ebx
+%endmacro
+segment .data
+msg1 db 10,13,&quot;enter the number : &quot;
+len1 equ $-msg1
+segment .bss
+num resb 2
+section .text
+global _start
+_start:
+input
+lea esi, [num]
+mov ecx, 2
+string_to_int
+mov [num],eax
+fibonacci [num]
+iprint:
+push eax
+push ecx
+push edx
+push esi
+mov ecx, 0
+divideloop:
+inc ecx
+mov edx, 0
+mov esi, 10
+idiv esi
+add edx, 48
+push edx
+cmp eax, 0
+jnz divideloop
+printloop:
+dec ecx
+mov eax,esp
+call sprint
+pop eax
+cmp ecx, 0
+jnz printloop
+pop esi
+pop edx
+pop ecx
+pop eax
+ret
+
+sprint:
