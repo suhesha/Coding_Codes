@@ -717,4 +717,50 @@ write msg3,len3
 mov eax,1
 mov ebx,0
 int 80h
+********************************************************
+%macro write 2
+mov eax,4
+mov ebx,1
+mov ecx,%1
+mov edx,%2
+int 80h
+%endmacro
+%macro read 2
+mov eax,3
+mov ebx,0
+mov ecx,%1
+mov edx,%2
+int 80h
+%endmacro
+section .data
+msg1 db &quot;Enter a number : &quot;,10,13
+msglen1 equ $-msg1
+msg2 db 10,13,&quot;Factorial of number in hexadecimal is : &quot;
+msglen2 equ $-msg2
+newline db 10,13
+section .bss
+num1 resb 3
+num2 resw 1
+dispbuff resq 1
+section .text
+global _start
+_start:
+write msg1,msglen1
+read num1,2
+xor eax,eax
+xor ebx,ebx
+xor ecx,ecx
+xor edx,edx
+call convert
+mov [num2],ebx
+write msg2,msglen2
+xor eax,eax
+xor ebx,ebx
+xor ecx,ecx
+xor edx,edx
+mov bx,[num2]
+mov eax,1
+call proc_fact
+mov ebx,eax
+call display
 
