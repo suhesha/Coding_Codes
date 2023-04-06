@@ -364,3 +364,247 @@ int 80h
 
 mov eax,1
 int 80h
+
+
+
+************************************************************EXPT 5***************************************************************
+%macro write 2
+mov eax,4
+mov ebx,1
+mov ecx,%1
+mov edx,%2
+int 80h
+%endmacro
+section .data
+msg1 db &quot;Kevin Fernandes&quot;,10,13
+len1 equ $-msg1
+msg2 db &quot;S.E COMP &quot;,10,13
+len2 equ $-msg2
+msg3 db &quot;MAPUSA&quot;,10,13
+len3 equ $-msg3
+section .text
+global _start
+_start:
+write msg1,len1
+write msg2,len2
+write msg3,len3
+mov eax,1
+mov ebx,0
+int 80h
+
+%macro write 2
+mov eax,4
+mov ebx,1
+mov ecx,%1
+mov edx,%2
+int 80h
+%endmacro
+%macro read 2
+mov eax,3
+mov ebx,0
+mov ecx,%1
+mov edx,%2
+int 80h
+%endmacro
+section .data
+msg1 db &quot;Enter a number : &quot;,10,13
+msglen1 equ $-msg1
+msg2 db 10,13,&quot;Factorial of number in hexadecimal is : &quot;
+msglen2 equ $-msg2
+newline db 10,13
+section .bss
+num1 resb 3
+num2 resw 1
+dispbuff resq 1
+section .text
+global _start
+_start:
+write msg1,msglen1
+read num1,2
+xor eax,eax
+xor ebx,ebx
+xor ecx,ecx
+xor edx,edx
+call convert
+mov [num2],ebx
+write msg2,msglen2
+xor eax,eax
+xor ebx,ebx
+xor ecx,ecx
+xor edx,edx
+mov bx,[num2]
+mov eax,1
+call proc_fact
+mov ebx,eax
+call display
+
+mov eax,1
+mov ebx,0
+int 80h
+convert :
+mov esi ,num1
+mov edi ,num2
+mov cl ,02h
+xor eax,eax
+xor ebx,ebx
+up : rol bl,04h
+mov al,[esi]
+cmp al,39h
+jbe skipc
+sub al,07h
+skipc : sub al,30h
+add bl,al
+mov [edi],bl
+inc esi
+inc edi
+loop up
+ret
+proc_fact:
+cmp bl,01
+jg xyz
+ret
+xyz: mul ebx
+dec bl
+call proc_fact
+ret
+display :
+mov ecx,8
+mov edi,dispbuff
+again : rol ebx,4
+mov al,bl
+and al,0fh
+cmp al,09h
+jbe down
+add al,07h
+down : add al,30h
+mov [edi],al
+inc edi
+loop again
+write dispbuff,8 ;use macros of display
+write newline,1
+ret
+
+%macro fibonacci 1
+mov eax, 0
+display
+mov eax, 1
+display
+mov ecx, %1
+sub ecx, 2
+mov eax, 1
+mov ebx, 0
+fib: mov edx,eax
+add eax,ebx
+display
+mov ebx,edx
+dec ecx
+jnz fib
+mov ebx,0
+mov eax,1
+int 80h
+%endmacro
+%macro display 0
+call iprint
+push eax
+mov eax,0ah
+push eax
+mov eax,esp
+call sprint
+pop eax
+pop eax
+%endmacro
+%macro input 0
+mov eax, 4
+mov ebx, 1
+mov ecx, msg1
+mov edx, len1
+int 80h
+mov eax, 3
+mov ebx, 0
+mov ecx, num
+mov edx, 2
+int 80h
+%endmacro
+%macro string_to_int 0
+xor ebx,ebx
+next_digit:
+movzx eax,byte[esi]
+inc esi
+sub al, &#39;0&#39;
+imul ebx, 10
+add ebx,eax
+
+loop next_digit
+mov eax,ebx
+%endmacro
+segment .data
+msg1 db 10,13,&quot;enter the number : &quot;
+len1 equ $-msg1
+segment .bss
+num resb 2
+section .text
+global _start
+_start:
+input
+lea esi, [num]
+mov ecx, 2
+string_to_int
+mov [num],eax
+fibonacci [num]
+iprint:
+push eax
+push ecx
+push edx
+push esi
+mov ecx, 0
+divideloop:
+inc ecx
+mov edx, 0
+mov esi, 10
+idiv esi
+add edx, 48
+push edx
+cmp eax, 0
+jnz divideloop
+printloop:
+dec ecx
+mov eax,esp
+call sprint
+pop eax
+cmp ecx, 0
+jnz printloop
+pop esi
+pop edx
+pop ecx
+pop eax
+ret
+
+sprint:
+push edx
+push ecx
+push ebx
+push eax
+call slen
+mov edx,eax
+pop eax
+mov ecx,eax
+mov ebx, 1
+mov eax, 4
+int 80h
+pop ebx
+pop ecx
+pop edx
+ret
+slen:
+push ebx
+mov ebx,eax
+nextchar:
+cmp byte[eax], 0
+jz finished
+inc eax
+jmp nextchar
+finished:
+sub eax,ebx
+pop ebx
+ret
+
