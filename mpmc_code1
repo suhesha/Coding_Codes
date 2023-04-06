@@ -175,3 +175,192 @@ mov eax,4 ;system call number(sys_write)
 int 80h ;call kernel
 mov eax,1 ;system call number(sys_exit)
 int 80h ;call kernel
+
+****************************************************************EXPT 2*************************************
+section .data
+msg db &quot;*** Basic Mathematical Operations ***&quot;
+len equ $-msg
+msg1 db 10,13,&quot;Num1 + Num2 : &quot;
+len1 equ $-msg1
+msg2 db 10,13,&quot;Num1 - Num2 : &quot;
+len2 equ $-msg2
+msg3 db 10,13,&quot;Num1 * Num2 : &quot;
+len3 equ $-msg3
+msg4 db 10,13,&quot;Num1 / Num2 : &quot;
+len4 equ $-msg4
+section .bss
+sum resb 1
+section .text
+global _start
+_start:
+mov edx,len
+mov ecx,msg
+mov ebx,1
+mov eax,4
+int 80h
+mov edx,len1
+mov ecx,msg1
+mov ebx,1
+mov eax,4
+int 80h
+
+mov ax,&#39;3&#39;
+sub ax,&#39;0&#39;
+mov bx,&#39;2&#39;
+sub bl,&#39;0&#39;
+add al,bl
+add ax,&#39;0&#39;
+mov [sum],ax
+mov ecx,sum
+mov edx,1
+mov ebx,1
+mov eax,4
+int 80h
+mov edx,len2
+mov ecx,msg2
+mov ebx,1
+mov eax,4
+int 80h
+
+mov ax,&#39;3&#39;
+sub ax,&#39;0&#39;
+mov bx,&#39;2&#39;
+sub bl,&#39;0&#39;
+sub al,bl
+add ax,&#39;0&#39;
+mov [sum],ax
+mov ecx,sum
+mov edx,1
+mov ebx,1
+mov eax,4
+int 80h
+
+mov edx,len3
+mov ecx,msg3
+mov ebx,1
+mov eax,4
+int 80h
+mov ax,&#39;3&#39;
+sub ax,&#39;0&#39;
+mov bx,&#39;2&#39;
+sub bl,&#39;0&#39;
+mul bl
+add ax,&#39;0&#39;
+mov [sum],ax
+mov ecx,sum
+mov edx,1
+mov ebx,1
+mov eax,4
+int 80h
+mov edx,len4
+mov ecx,msg4
+mov ebx,1
+mov eax,4
+int 80h
+mov ax,&#39;3&#39;
+sub ax,&#39;0&#39;
+mov bx,&#39;2&#39;
+sub bl,&#39;0&#39;
+div bl
+add ax,&#39;0&#39;
+mov [sum],ax
+mov ecx,sum
+mov edx,1
+mov ebx,1
+mov eax,4
+int 80h
+mov eax,1
+int 80h
+
+
+
+section .data
+msg1 db &quot;Enter a digit : &quot;
+len1 equ $-msg1
+msg2 db 10,13,&quot;The number entered is : &quot;
+len2 equ $-msg2
+section .bss
+num resb 0
+section .text
+global _start
+_start:
+mov eax,4 ;Display msg1
+mov ebx,1
+mov ecx,msg1
+mov edx,len1
+int 80h
+mov eax,3 ;Accept number from the user
+mov ebx,0
+mov ecx,num
+mov edx,2
+int 80h
+mov eax,4 ;Display msg2
+mov ebx,1
+mov ecx,msg2
+mov edx,len2
+int 80h
+mov eax,4 ;Print num
+mov ebx,1
+mov ecx,num
+mov edx,1
+int 80h
+mov eax,1
+int 80h
+
+segment .data
+msg1 db &quot;Enter a digit : &quot;
+len1 equ $-msg1
+msg2 db 10,13,&quot;Please enter a second digit : &quot;
+len2 equ $-msg2
+msg3 db 10,13,&quot;The sum is : &quot;
+len3 equ $-msg3
+segment .bss
+num1 resb 2 ; num1 is the first number that is entered by the user
+num2 resb 2 ; num2 is the second number that is entered by the user
+res resb 1 ; res is a variable that stores the result
+
+segment .text
+global _start
+_start:
+mov eax,4 ; Display msg1
+mov ebx,1
+mov ecx,msg1
+mov edx,len1
+int 80h
+mov eax,3 ; Accept number 1 from the user
+mov ebx,0
+mov ecx,num1
+mov edx,2
+int 80h
+mov eax,4 ; Display msg2
+mov ebx,1
+mov ecx,msg2
+mov edx,len2
+int 80h
+mov eax,3 ; Accept number 2 from the user
+mov ebx,0
+mov ecx,num2
+mov edx,2
+int 80h
+mov eax,4 ;Display msg3
+mov ebx,1
+mov ecx,msg3
+mov edx,len3
+int 80h
+
+
+mov eax,[num1]
+sub eax,&#39;0&#39;
+mov ebx,[num2]
+sub ebx,&#39;0&#39;
+add eax,ebx
+add eax,&#39;0&#39;
+mov [res],eax
+mov eax,4 ; Print num
+mov ebx,1
+mov ecx,res
+mov edx,1
+int 80h
+
+mov eax,1
+int 80h
