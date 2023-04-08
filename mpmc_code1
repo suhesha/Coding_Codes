@@ -1051,3 +1051,63 @@ dec byte[cnt]
 cmp byte[cnt],0
 jne above1
 ret
+****************************************************EXPT 7************************************************
+%macro display 2
+mov edx,%2
+mov ecx,%1
+mov ebx,1
+mov eax,4
+int 80h
+%endmacro
+%macro read 2
+mov edx,%2
+mov ecx,%1
+mov ebx,0
+mov eax,3
+int 80h
+%endmacro
+section .data
+msg1 db 10,&quot;Enter element to be searched : &quot;
+len1 equ $-msg1
+msg11 db 10,&quot;The array contains the elements&quot;,10,13
+msglen11 equ $-msg11
+msg2 db 10,&quot;The element is present in array at position : &quot;,10
+len2 equ $-msg2
+msg3 db 10,&quot;The element is not present in array&quot;,10
+len3 equ $-msg3
+array db 10h,15h,25h,30h,35h
+newline db 10
+space db &#39; &#39;
+section .bss
+num1 resb 3
+temp resb 1
+pos resb 1
+counter resb 1
+counter2 resb 1
+result resb 4
+section .text
+global _start
+_start: display msg11,msglen11
+mov byte[counter],05
+mov esi,array
+next: mov al,[esi]
+push esi
+call disp
+pop esi
+inc esi
+dec byte[counter]
+jnz next
+display msg1,len1
+read num1,3
+call convert
+mov [temp],bl
+xor eax,eax
+xor ebx,ebx
+mov al,00h
+mov bl,04h
+up: mov esi,array
+xor edx,edx
+mov dl,al
+xor eax,eax
+mov al,dl
+add al,bl
