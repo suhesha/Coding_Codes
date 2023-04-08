@@ -1240,3 +1240,67 @@ mov cl,05h
 mov esi,array
 up2: xor ebx,ebx
 mov bl,[esi]
+cmp [temp],bl
+jz next2
+inc esi
+inc byte[pos]
+loop up2
+display msg2,len2
+ret
+next2: display msg1,len1
+call convert2
+display temp2,2
+display newline,1
+ret
+convert:
+xor eax,eax
+xor ebx,ebx
+xor ecx,ecx
+mov esi,item
+mov cl,02h
+mov bl,00h
+up: rol bl,04h
+mov al,[esi]
+cmp al,39h
+jbe next
+sub al,07h
+next: sub al,30h
+add bl,al
+inc esi
+loop up
+mov [temp],bl
+ret
+convert2:
+mov esi,pos
+mov edi,temp2
+mov cl,02h
+mov bl,[esi]
+up1: rol bl,04h
+mov al,bl
+and al,0fh
+cmp al,09h
+jbe next1
+add al,07h
+next1: add al,30h
+mov [edi],al
+inc edi
+loop up1
+ret
+disp: mov bl,al
+mov edi,result
+mov cx,02
+again: rol bl,4
+mov al,bl
+and al,0fh
+cmp al,09
+jg down
+add al,30h
+jmp skip1
+down: add al,37h
+skip1: mov[edi],al
+inc edi
+dec cx
+jnz again
+display result,2
+display space,2
+ret
