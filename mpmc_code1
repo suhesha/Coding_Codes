@@ -1177,3 +1177,66 @@ jnz again
 display result,2
 display space,2
 ret
+
+
+
+
+%macro user_input 2
+mov edx,%2
+mov ecx,%1
+mov ebx,0
+mov eax,3
+int 80h
+%endmacro
+%macro display 2
+mov edx,%2
+mov ecx,%1
+mov ebx,1
+mov eax,4
+int 80h
+%endmacro
+section .data
+msg11 db 10,&quot;The array contains the elements&quot;,10,13
+msglen11 equ $-msg11
+msg12 db 10,&quot;Enter element to be searched&quot;,10,13
+msglen12 equ $-msg12
+msg1 db 10,&quot;The element is present in the array at position : &quot;,10
+len1 equ $-msg1
+msg2 db 10,&quot;The element is not present in the array&quot;,10
+len2 equ $-msg2
+array db 14h,10h,19h,25h,01h
+pos db 01h
+newline db 10
+space db &#39; &#39;
+section .bss
+item resb 1
+temp resb 1
+temp2 resb 2
+counter resb 1
+counter2 resb 1
+result resb 4
+section .text
+global _start
+_start: display msg11,msglen11
+mov byte[counter],05
+mov esi,array
+next111:mov al,[esi]
+push esi
+call disp
+pop esi
+inc esi
+dec byte[counter]
+jnz next111
+display msg12,msglen12
+user_input item,2
+call convert
+call linear_search
+mov eax,1
+mov ebx,0
+int 80h
+linear_search:
+xor ecx,ecx
+mov cl,05h
+mov esi,array
+up2: xor ebx,ebx
+mov bl,[esi]
