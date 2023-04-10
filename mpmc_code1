@@ -1304,3 +1304,57 @@ jnz again
 display result,2
 display space,2
 ret
+********************************************EXPT 6************************************
+%macro write 2
+mov eax,4
+mov ebx,1
+mov ecx,%1
+mov edx,%2
+int 80h
+%endmacro
+%macro read 2
+mov eax,3
+mov ebx,0
+mov ecx,%1
+mov edx,%2
+int 80h
+%endmacro
+section .data
+arrsize equ 7
+msg1 db &quot;Enter 7 characters : &quot;,10,13
+msglen1 equ $-msg1
+msg2 db &quot;Entered characters are : &quot;,10,13
+msglen2 equ $-msg2
+newline db &#39;&#39;,10,13
+space db &#39; &#39;
+section .bss
+arr resb 7
+extr resb 1
+section .text
+global _start:
+_start:
+write msg1,msglen1
+mov edi,arr
+mov ecx,arrsize
+input :
+push ecx
+read edi,1
+read extr,1
+inc edi
+pop ecx
+loop input
+write newline,1
+write msg2,msglen2
+mov esi,arr
+mov ecx,arrsize
+output:
+mov [buff],ecx ; push ecx
+write esi,1
+write space,1
+inc esi
+mov ecx,[buff] ; pop ecx
+loop output
+write newline,1
+mov eax,1
+mov ebx,0
+int 80h
