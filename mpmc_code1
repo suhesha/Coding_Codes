@@ -1,4 +1,4 @@
-***********EXPT5*****************
+***********EXPT4*****************
 section .data
 msg1 db &quot; &quot;
 len1 equ $-msg1
