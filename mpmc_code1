@@ -1,4 +1,4 @@
-***********EXPT4*****************************
+************************EXPT4*****************************
 section .data ; header file
 msg1 db &quot; &quot;
 len1 equ $-msg1; length of message 1
