@@ -13,7 +13,6 @@ int del();
 void display();
 int peek();
 int isempty();
-
 int main()
 {
     int choice , item ;
