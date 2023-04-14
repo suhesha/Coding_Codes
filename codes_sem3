@@ -37,7 +37,6 @@ int main()
             default : printf("Please enter valid choice\n");
         }
     }
-
     return 0;
 }
 void insert(int item)
@@ -59,11 +58,7 @@ void insert(int item)
   }
    rear->next=temp;
    rear=temp;
-
-
-
 }
-
 int del()
 {
   int item ;
@@ -90,11 +85,6 @@ int peek()
    return front->data;
 
 }
-
-
-
-
-
 int isempty()
 {
   if (front==NULL)
