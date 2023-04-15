@@ -122,7 +122,6 @@ int pop();
 int peek();
 int isempty();
 void display();
-
 int main()
 {
     int choice , item ;
@@ -164,7 +163,6 @@ void push(int item)
    temp->data=item;
    temp->next=top;
    top=temp;
-
 }
 
 int pop()
@@ -204,7 +202,6 @@ printf("\n Elements are : ");
      temp=temp->next;
  }
 }
-
 int isempty()
 {
    if (top==NULL)
