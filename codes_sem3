@@ -72,10 +72,7 @@ int del()
   item=temp->data;
   free(temp);
   return item;
-
 }
-
-
 int peek()
 {
      if(isempty())
@@ -92,7 +89,6 @@ int isempty()
    else
    return 0;
 }
-
 void display()
 {
     if (isempty())
@@ -108,8 +104,6 @@ printf("\n Elements are : ");
      temp=temp->next;
  }
 }
-
-
 stacks using linked list
 
 #include<stdio.h>
