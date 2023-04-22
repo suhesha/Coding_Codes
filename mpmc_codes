@@ -1,5 +1,5 @@
 ************************TO ADD 2 NUMBERS********************
-section .da
+section .data 
 msg db "enter a digit 1:" ,10
 len equ $- msg
 msg2 db "enter the digit 2:" ,10
@@ -62,9 +62,14 @@ mov ebx,1
 int 80h
 mov eax,1
 int 80h
+
+
+
 **********************************************************************************
 ARITHMETIC OPERATION (CALCULATOR)
 ********************************************************************************
+
+
 section .data
 msg db "***  basic mathematical operations ***"
 len equ $ -msg
@@ -108,6 +113,7 @@ mov eax,4
 int 80h
 ********************************************************************************************
 ****************************************BASIC MATHEMATIC OPERATION**********************************************
+*******************************************************************************************************
 section .data
 msg db "***  basic mathematical operations ***"
 len equ $ -msg
