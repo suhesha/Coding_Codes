@@ -1363,3 +1363,34 @@ write newline,1
 mov eax,1
 mov ebx,0
 int 80h
+
+*******************************************************************EXPT 8 *****************************************************
+PRINTING HELLO WORLD VERTICALLY DOWNWARD 
+
+%macro display 2
+mov edx,%2
+mov ecx,%1
+mov ebx,1
+mov eax,4
+int 80h
+%endmacro
+section .data
+array db &#39;H&#39;,&#39;e&#39;,&#39;l&#39;,&#39;l&#39;,&#39;o&#39;,&#39; &#39;,&#39;W&#39;,&#39;o&#39;,&#39;r&#39;,&#39;l&#39;,&#39;d&#39;
+newline db &#39;&#39;,10,13
+section .text
+global _start
+_start :
+mov ecx,11
+mov esi,array
+output:
+push ecx
+display esi,1
+display newline,1
+inc esi
+pop ecx
+loop output
+display newline,1
+
+mov eax,1
+mov ebx,0
+int 80h
