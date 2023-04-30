@@ -1,9 +1,4 @@
 ;Program title : ALP to print the largest of three numbers
-;Programmer name : Kevin Francis Fernandes
-
-
-
-
 section .data
     n1 db "Enter the first number :",13,10
     l1 equ $-n1
