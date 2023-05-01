@@ -1,5 +1,4 @@
 ;Program title : ALP to chek even and odd
-;Programmer name : Kevin Francis Fernandes
 
 section .data
 	even_msg db "Even Number ! "
