@@ -1,5 +1,5 @@
 ;Program title : ALP to display numbers 0 to 9 on the screen
-;Programmer name : Kevin Francis Fernandes
+;
 
 section .data
 	msg1 db " "
