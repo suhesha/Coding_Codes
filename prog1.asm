@@ -1,6 +1,4 @@
 ;Program title : ALP to display numbers 0 to 9 on the screen
-;
-
 section .data
 	msg1 db " "
 	len1 equ $-msg1
