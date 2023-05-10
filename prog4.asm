@@ -1,5 +1,5 @@
 ;Program title : ALP to print the largest of three numbers
-section .data
+section .data; The main section part 
     n1 db "Enter the first number :",13,10
     l1 equ $-n1
     n2 db "Enter the second number :",13,10
@@ -13,7 +13,7 @@ section .data
     msg3 db "Number 3 is the largest number !",13,10
     len3 equ $-msg3
 
-section .bss
+section .bss; allocating the space
 num1 resb 2
 num2 resb 2
 num3 resb 2
