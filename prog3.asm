@@ -5,7 +5,6 @@ section .data
 	len1 equ $-pos_msg
 	neg_msg db "Negative Number ! "
 	len2 equ $-neg_msg
-	
 section .text
 	global _start 
     _start :
